@@ -1,0 +1,4 @@
+.vs/
+TentaPEditor/bin/*
+TentaPEditor/obj/*
+Properties/launchSettings.json
