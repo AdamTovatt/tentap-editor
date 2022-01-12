@@ -17,6 +17,11 @@ namespace TentaPEditor
     {
         private List<Course> courses = new List<Course>();
 
+        public Exercise CurrentExercise { get { if (exerciseList.SelectedItem == null) return null; return (Exercise)exerciseList.SelectedItem; } }
+        public Tag CurrentTag { get { if (tagPicker.SelectedItem == null) return null; return (Tag)tagPicker.SelectedItem; } }
+
+        private DateTime createdNewExerciseTime;
+
         public Form1()
         {
             InitializeComponent();
@@ -108,19 +113,28 @@ namespace TentaPEditor
             solutionPictureBox.Image = null;
         }
 
+        private async void ShowCurrentExercise()
+        {
+            Exercise exercise = CurrentExercise;
+            await exercise.FetchAsync();
+            exercisePictureBox.Image = exercise.ExerciseImage;
+            solutionPictureBox.Image = exercise.SolutionImage;
+            sourceIdInput.Value = exercise.Source.Id;
+            numberInput.Value = exercise.Number;
+            sourceInfoLabel.Text = exercise.Source.ToString();
+            exerciseIdLabel.Text = "Id: " + exercise.Id.ToString();
+        }
+
         private async void ExerciseListChangedIndex(object sender, EventArgs e)
         {
+            if ((DateTime.Now - createdNewExerciseTime).TotalSeconds < 1f)
+                return;
+
             Exercise exercise = (Exercise)exerciseList.SelectedItem;
 
             if (exercise != null)
             {
-                await exercise.FetchAsync();
-                exercisePictureBox.Image = exercise.ExerciseImage;
-                solutionPictureBox.Image = exercise.SolutionImage;
-                sourceIdInput.Value = exercise.Source.Id;
-                numberInput.Value = exercise.Number;
-                sourceInfoLabel.Text = exercise.Source.ToString();
-                exerciseIdLabel.Text = "Id: " + exercise.Id.ToString();
+                //ShowCurrentExercise();
             }
         }
 
@@ -165,8 +179,8 @@ namespace TentaPEditor
             body.TagId = ((Tag)tagPicker.SelectedItem).Id;
             body.Number = (int)numberInput.Value;
             body.SourceId = (int)sourceIdInput.Value;
-            
-            if((Exercise)exerciseList.SelectedItem != null)
+
+            if ((Exercise)exerciseList.SelectedItem != null)
             {
                 body.Id = ((Exercise)exerciseList.SelectedItem).Id;
             }
@@ -192,6 +206,84 @@ namespace TentaPEditor
         public void ConsoleLog(string text, bool newLine = true)
         {
             console.Text += text + (newLine ? "\n" : "");
+        }
+
+        private void ExerciseTakeNewButtonClick(object sender, EventArgs e)
+        {
+            ImageCaptureWindow captureWindow = new ImageCaptureWindow();
+            Hide();
+            captureWindow.Show();
+            captureWindow.OnImageWasCaptured += (Image image) =>
+            {
+                ImageViewer imageViewer = new ImageViewer(image);
+                imageViewer.Show();
+
+                CurrentExercise.SetExerciseImage(image);
+                exercisePictureBox.Image = CurrentExercise.ExerciseImage;
+
+                imageViewer.OnClosed += () =>
+                {
+                    Show();
+                };
+            };
+        }
+
+        private void SolutionTakeNewButtonClick(object sender, EventArgs e)
+        {
+            ImageCaptureWindow captureWindow = new ImageCaptureWindow();
+            Hide();
+            captureWindow.Show();
+            captureWindow.OnImageWasCaptured += (Image image) =>
+            {
+                ImageViewer imageViewer = new ImageViewer(image);
+                imageViewer.Show();
+
+                CurrentExercise.SetSolutionImage(image);
+                solutionPictureBox.Image = CurrentExercise.SolutionImage;
+
+                imageViewer.OnClosed += () =>
+                {
+                    Show();
+                };
+            };
+        }
+
+        private void ViewExerciseImageButtonClick(object sender, EventArgs e)
+        {
+            if (CurrentExercise != null)
+            {
+                ImageViewer imageViewer = new ImageViewer(CurrentExercise.ExerciseImage);
+                imageViewer.Show();
+            }
+        }
+
+        private void ViewSolutionImageButtonClick(object sender, EventArgs e)
+        {
+            if (CurrentExercise != null)
+            {
+                ImageViewer imageViewer = new ImageViewer(CurrentExercise.SolutionImage);
+                imageViewer.Show();
+            }
+        }
+
+        private void NewExerciseButtonClick(object sender, EventArgs e)
+        {
+            if (CurrentTag != null)
+            {
+                Exercise exercise = new Exercise() { Source = CurrentTag.Exercises.First().Source };
+
+                CurrentTag.Exercises.Add(exercise);
+                exerciseList.DataSource = null;
+                FillExerciseList();
+                exerciseList.SelectedIndex = exerciseList.Items.IndexOf(exercise);
+                ShowCurrentExercise();
+                createdNewExerciseTime = DateTime.Now;
+            }
+        }
+
+        private void ExerciseListDoubleClick(object sender, MouseEventArgs e)
+        {
+            ShowCurrentExercise();
         }
     }
 }

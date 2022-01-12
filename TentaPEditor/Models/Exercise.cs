@@ -26,6 +26,16 @@ namespace TentaPEditor.Models
         public Image SolutionImage { get { if (_solutionImage == null) throw new Exception(noFetchErrorMessage); return _solutionImage; } }
         private Image _solutionImage = null;
 
+        public void SetExerciseImage(Image image)
+        {
+            _exerciseImage = image;
+        }
+
+        public void SetSolutionImage(Image image)
+        {
+            _solutionImage = image;
+        }
+
         public async Task FetchAsync()
         {
             try

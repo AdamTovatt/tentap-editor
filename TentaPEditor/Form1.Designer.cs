@@ -47,8 +47,11 @@ namespace TentaPEditor
             this.sourceInfoLabel = new System.Windows.Forms.Label();
             this.uploadButton = new System.Windows.Forms.Button();
             this.exercisePanel = new System.Windows.Forms.Panel();
+            this.viewSolutionImageButton = new System.Windows.Forms.Button();
+            this.viewExerciseImageButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.console = new System.Windows.Forms.RichTextBox();
+            this.newExerciseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.exercisePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.solutionPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numberInput)).BeginInit();
@@ -100,6 +103,7 @@ namespace TentaPEditor
             this.exerciseList.Size = new System.Drawing.Size(238, 303);
             this.exerciseList.TabIndex = 5;
             this.exerciseList.SelectedIndexChanged += new System.EventHandler(this.ExerciseListChangedIndex);
+            this.exerciseList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ExerciseListDoubleClick);
             // 
             // solutionPictureBox
             // 
@@ -136,6 +140,7 @@ namespace TentaPEditor
             this.exerciseTakeNewButton.TabIndex = 9;
             this.exerciseTakeNewButton.Text = "Take new";
             this.exerciseTakeNewButton.UseVisualStyleBackColor = true;
+            this.exerciseTakeNewButton.Click += new System.EventHandler(this.ExerciseTakeNewButtonClick);
             // 
             // solutionTakeNewButton
             // 
@@ -145,6 +150,7 @@ namespace TentaPEditor
             this.solutionTakeNewButton.TabIndex = 10;
             this.solutionTakeNewButton.Text = "Take new";
             this.solutionTakeNewButton.UseVisualStyleBackColor = true;
+            this.solutionTakeNewButton.Click += new System.EventHandler(this.SolutionTakeNewButtonClick);
             // 
             // exerciseIdLabel
             // 
@@ -209,6 +215,8 @@ namespace TentaPEditor
             // exercisePanel
             // 
             this.exercisePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.exercisePanel.Controls.Add(this.viewSolutionImageButton);
+            this.exercisePanel.Controls.Add(this.viewExerciseImageButton);
             this.exercisePanel.Controls.Add(this.label1);
             this.exercisePanel.Controls.Add(this.exercisePictureBox);
             this.exercisePanel.Controls.Add(this.sourceInfoLabel);
@@ -225,6 +233,26 @@ namespace TentaPEditor
             this.exercisePanel.Name = "exercisePanel";
             this.exercisePanel.Size = new System.Drawing.Size(790, 381);
             this.exercisePanel.TabIndex = 18;
+            // 
+            // viewSolutionImageButton
+            // 
+            this.viewSolutionImageButton.Location = new System.Drawing.Point(454, 155);
+            this.viewSolutionImageButton.Name = "viewSolutionImageButton";
+            this.viewSolutionImageButton.Size = new System.Drawing.Size(75, 23);
+            this.viewSolutionImageButton.TabIndex = 18;
+            this.viewSolutionImageButton.Text = "View image";
+            this.viewSolutionImageButton.UseVisualStyleBackColor = true;
+            this.viewSolutionImageButton.Click += new System.EventHandler(this.ViewSolutionImageButtonClick);
+            // 
+            // viewExerciseImageButton
+            // 
+            this.viewExerciseImageButton.Location = new System.Drawing.Point(106, 155);
+            this.viewExerciseImageButton.Name = "viewExerciseImageButton";
+            this.viewExerciseImageButton.Size = new System.Drawing.Size(75, 23);
+            this.viewExerciseImageButton.TabIndex = 17;
+            this.viewExerciseImageButton.Text = "View image";
+            this.viewExerciseImageButton.UseVisualStyleBackColor = true;
+            this.viewExerciseImageButton.Click += new System.EventHandler(this.ViewExerciseImageButtonClick);
             // 
             // deleteButton
             // 
@@ -244,11 +272,22 @@ namespace TentaPEditor
             this.console.TabIndex = 20;
             this.console.Text = "";
             // 
+            // newExerciseButton
+            // 
+            this.newExerciseButton.Location = new System.Drawing.Point(328, 399);
+            this.newExerciseButton.Name = "newExerciseButton";
+            this.newExerciseButton.Size = new System.Drawing.Size(75, 23);
+            this.newExerciseButton.TabIndex = 21;
+            this.newExerciseButton.Text = "New";
+            this.newExerciseButton.UseVisualStyleBackColor = true;
+            this.newExerciseButton.Click += new System.EventHandler(this.NewExerciseButtonClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1130, 583);
+            this.Controls.Add(this.newExerciseButton);
             this.Controls.Add(this.console);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.exercisePanel);
@@ -292,6 +331,9 @@ namespace TentaPEditor
         private System.Windows.Forms.Panel exercisePanel;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.RichTextBox console;
+        private System.Windows.Forms.Button viewSolutionImageButton;
+        private System.Windows.Forms.Button viewExerciseImageButton;
+        private System.Windows.Forms.Button newExerciseButton;
     }
 }
 

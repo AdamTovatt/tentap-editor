@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace TentaPEditor
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                image.Save(memoryStream, image.RawFormat);
+                image.Save(memoryStream, ImageFormat.Jpeg);
                 return memoryStream.ToArray();
             }
         }
