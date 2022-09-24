@@ -55,7 +55,7 @@ namespace TentaPEditor
             HTBOTTOMLEFT = 16,
             HTBOTTOMRIGHT = 17;
 
-        const int _ = 10; // you can rename this variable if you like
+        const int _ = 30; // you can rename this variable if you like
 
         Rectangle Top { get { return new Rectangle(0, 0, this.ClientSize.Width, _); } }
         Rectangle Left { get { return new Rectangle(0, 0, _, this.ClientSize.Height); } }

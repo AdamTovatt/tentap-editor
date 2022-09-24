@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,18 +9,13 @@ namespace TentaPEditor
 {
     public static class ExtensionMethods
     {
-        public static byte[] ToByteArray(this Image image)
+        public static string GetBase64String(this Bitmap bitmap)
         {
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                image.Save(memoryStream, ImageFormat.Jpeg);
-                return memoryStream.ToArray();
+                bitmap.Save(ms, ImageFormat.Png);
+                return Convert.ToBase64String(ms.ToArray());
             }
-        }
-
-        public static string ToBase64(this byte[] array)
-        {
-            return Convert.ToBase64String(array);
         }
     }
 }
