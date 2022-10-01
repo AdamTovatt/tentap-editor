@@ -54,14 +54,14 @@ namespace TentaPEditor
                     captureWindow1.Show();
                     captureWindow1.OnImageWasCaptured += (Image image) =>
                     {
-                        problemImage = image;
+                        solutionImage = image;
 
                         ImageCaptureWindow captureWindow2 = new ImageCaptureWindow();
 
                         captureWindow2.Show();
                         captureWindow2.OnImageWasCaptured += (Image image) =>
                         {
-                            solutionImage = image;
+                            problemImage = image;
 
                             DidCaptureImages(problemImage, solutionImage);
                         };
